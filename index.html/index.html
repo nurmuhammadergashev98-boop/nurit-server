@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Nurmuhammad IT Solutions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f7f6; color: #333; }
+        header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800'); height: 300px; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
+        form { max-width: 500px; margin: -50px auto 50px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .btn { width: 100%; padding: 15px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .btn:hover { background: #c0392b; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <header><h1>NUR-IT SOLUTIONS</h1></header>
+
+    <div class="hero">
+        <h2>Professional Python Developer</h2>
+        <p>Menga loyihangizni yozib qoldiring!</p>
+    </div>
+
+    <form id="mainForm">
+        <input type="text" id="name" placeholder="Ismingiz" required>
+        <input type="email" id="email" placeholder="Emailingiz" required>
+        <textarea id="message" rows="5" placeholder="Loyiha haqida batafsil..." required></textarea>
+        <button type="button" class="btn" onclick="sendData()">Xabar yuborish</button>
+    </form>
+
+    <script>
+        async function sendData() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            if(!name || !email || !message) {
+                alert("Iltimos, barcha maydonlarni to'ldiring!");
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/send_message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
+
+                if (response.ok) {
+                    alert("Ajoyib! Xabaringiz Telegramga yuborildi va bazaga saqlandi! ✅");
+                    document.getElementById('mainForm').reset();
+                }
+            } catch (error) {
+                alert("Xatolik! Python serveringiz yoniqligini tekshiring.");
+            }
+        }
+    </script>
+</body>
+</html>
